@@ -104,9 +104,9 @@ export default CalendarEvent.extend({
     if (this.get('event') == null) {
       return new SafeString('');
     }
-  
+
     let escape = Handlebars.Utils.escapeExpression;
-  
+
     return new SafeString(
       `top: ${escape(this.calculateTop())}%;
        height: ${escape(this.calculateHeight())}%;
@@ -114,6 +114,17 @@ export default CalendarEvent.extend({
        width: ${escape(this.calculateWidth())}%;`
     );
   }),
+
+  recentlyUpdated: computed('event.lastModified', {
+    get() {
+      const event = this.event;
+      const lastModifiedDate = moment(event.lastModified);
+      const today = moment();
+      const daysSinceLastUpdate = today.diff(lastModifiedDate, 'days');
+
+      return daysSinceLastUpdate < 6 ? true : false;
+    }
+  }).readOnly(),
 
   click(){
     if(this.get('clickable')){

@@ -1,4 +1,8 @@
 {{#if event}}
+  {{#if recentlyUpdated}}
+    {{fa-icon 'exclamation-circle' class="recently-updated-icon"}}
+  {{/if}}
+
   <span class='ilios-calendar-event-time'>
     {{#if isIlm}}
       <span class='ilios-calendar-event-start'>
@@ -12,8 +16,8 @@
         - {{moment-format event.endDate 'h:mma'}}
       </span>
     {{/if}}
-    
   </span>
+
   <span class='ilios-calendar-event-location'>
     {{#if event.location.length}}
       {{event.location}}:

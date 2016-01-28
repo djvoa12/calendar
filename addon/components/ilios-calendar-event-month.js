@@ -38,6 +38,18 @@ export default CalendarEvent.extend({
   isIlm: notEmpty('event.ilmSession'),
   isOffering: notEmpty('event.offering'),
   clickable: any('isIlm', 'isOffering'),
+
+  recentlyUpdated: computed('event', {
+    get() {
+      const event = this.event;
+      const lastModifiedDate = moment(event.lastModified);
+      const today = moment();
+      const daysSinceLastUpdate = today.diff(lastModifiedDate, 'days');
+
+      return daysSinceLastUpdate < 6 ? true : false;
+    }
+  }).readOnly(),
+
   click(){
     if(this.get('clickable')){
       this.sendAction('action', this.get('event'));
